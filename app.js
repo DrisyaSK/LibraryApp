@@ -1,4 +1,5 @@
 const express=require('Express');
+const port=process.env.PORT||5555;
 const booksRouter=express.Router();
 const authorsRouter=express.Router();
 const signinRouter=express.Router();
@@ -235,5 +236,5 @@ app.get('/',function(req,res)
     });
     
     
-app.listen(5555);
-console.log("server ready at 5555");
+app.listen(port);
+console.log("server ready at"+port);
