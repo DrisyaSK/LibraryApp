@@ -1,240 +1,81 @@
 const express=require('Express');
-const port=process.env.PORT||5555;
-const booksRouter=express.Router();
-const authorsRouter=express.Router();
-const signinRouter=express.Router();
-const signupRouter=express.Router();
 const app= new express();
+var bodyParser = require('body-parser');
+const port=process.env.PORT||5555;
+const nav=[
+        {
+        link:'/books',
+        name:'Books'
+        },
+        {
+        link:'/authors',
+        name:'Authors'
+        },
+        {
+            link:'/',
+            name:'Logout'
+        }
+    ];
+
+
+const signinRouter=express.Router();
+
+
+const authorsRouter=require('./src/routes/authorRoutes')(nav);
+const signupRouter=require('./src/routes/signupRoutes')(nav);
+const loginRouter=require('./src/routes/loginRoutes')(nav);
+const adminRouter=require('./src/routes/adminRoutes')(nav);
+const userRouter=require('./src/routes/userRoutes')(nav);
+const actionRouter=require('./src/routes/actionRoutes')(nav);
+const actionARouter=require('./src/routes/actionARoutes')(nav);
+const deleteRouter=require('./src/routes/deleteRoutes')(nav);
+const deleteARouter=require('./src/routes/deleteARoutes')(nav);
+
+app.use(express.urlencoded({
+    extended: true
+ }));
+ 
+app.use(express.json());
 app.use(express.static('./public'));
 app.set('view engine','ejs');
 app.set('views','./src/views');
-app.use('/books',booksRouter);
-app.use('/authors',authorsRouter);
 app.use('/signin',signinRouter);
 app.use('/signup',signupRouter);
+app.use('/login',loginRouter);
+app.use('/adminpage',adminRouter);
+app.use('/books',adminRouter);
+app.use('/authors',adminRouter);
+app.use('/userpage',userRouter);
+app.use('/ubooks',userRouter);
+app.use('/uauthors',userRouter);
+app.use('/addbook',adminRouter);
+app.use('/savebook',adminRouter);
+app.use('/addauthor',adminRouter);
+app.use('/saveauthor',adminRouter);
+app.use('/actions',actionRouter);
+app.use('/actionsauthor',actionARouter);
+app.use('/deletebook',deleteRouter);
+app.use('/deleteauthor',deleteARouter);
+
+
 //console.log(__dirname);
 app.get('/',function(req,res)
     {
         //res.send("hello world");
         res.render("index",{
-                nav: [
-                        {
-                        link:'/SignIn',
-                        name:'SignIn'
-                        },
-                        {
-                            link:'/SignUp',
-                            name:'SignUp'
-                            },
-                        {
-                        link:'/books',
-                        name:'Books'
-                        },
-                        {
-                        link:'/authors',
-                        name:'Authors'
-                        }],
+                
                 title:'Library'  
         });
     });
-    var books=
-            [
-                {
-                    title:'Starting With ANDROID',
-                    author:'M M Sharma',
-                    genre:'Technology',
-                    img:'android.jpg'
-                },
-                {
-                    title:'The Jungle Book',
-                    author:'Rudyard Kipling',
-                    genre:'cartoon',
-                    img:'jungle.jpg'
-                },
-                {
-                    title:'PICHAI: The Future Of Google',
-                    author:'Jagmohan S Bhanver',
-                    genre:'Technology',
-                    img:'pichai.jpg'
-                }
-            ]
-    booksRouter.get('/',function(req,res){
-        res.render("books",{
-            nav: [
-                    {
-                    link:'/SignIn',
-                    name:'SignIn'
-                    },
-                    {
-                        link:'/SignUp',
-                        name:'SignUp'
-                        },
-                    
-                    {
-                    link:'/books',
-                    name:'Books'
-                    },
-                    {
-                    link:'/authors',
-                    name:'Authors'
-                    }],
-            title:'Books',
-            books 
-        });
-    });
-    booksRouter.get('/:id',function(req,res)
-    {
-        const id =req.params.id;
-        res.render('book',
-                {
-                    nav:[
-                        {
-                            link:'/SignIn',
-                            name:'SignIn'
-                            },
-                            {
-                                link:'/SignUp',
-                                name:'SignUp'
-                                },
-                            
-                            {
-                            link:'/books',
-                            name:'Books'
-                    },
-                    {
-                        link:'/authors',
-                        name:'Authors'
-                    }],
-                    title:'Book',         
-                    book:books[id]
-                });
-    }); 
-    var authors=
-    [
-                {
-                    name:'J K Rowling',
-                    DOB:'31/7/1965',
-                    genre:'Fiction,Fantasy,Drama',
-                    img:'rowling.jpg'
-                },
-                {
-                    name:'Arundhati Roy',
-                    DOB:'24/11/1961',
-                    genre:'Fiction,Non-fiction',
-                    img:'arundhati.jpg'
-                },
-                {
-                    name:'R K Narayan',
-                    DOB:'10/10/1906',
-                    genre:'Fiction,mythology',
-                    img:'narayan.jpg'
-                }
-    ]
-    authorsRouter.get('/',function(req,res)
-    {
-        res.render("authors",{
-            nav: [
-                {
-                    link:'/SignIn',
-                    name:'SignIn'
-                    },
-                    {
-                        link:'/SignUp',
-                        name:'SignUp'
-                        },
-                    
-                    {
-                    link:'/books',
-                    name:'Books'
-                    },
-                    {
-                    link:'/authors',
-                    name:'Authors'
-                    }],
-            title:'Authors',
-            authors 
-        });
-    });
-    authorsRouter.get('/:id',function(req,res)
-    {
-        const id =req.params.id;
-        res.render('author',
-                {
-                    nav:[
-                        {
-                            link:'/SignIn',
-                            name:'SignIn'
-                            },
-                            {
-                                link:'/SignUp',
-                                name:'SignUp'
-                                },
-                            
-                            {
-                            link:'/books',
-                            name:'Books'
-                    },
-                    {
-                        link:'/authors',
-                        name:'Authors'
-                    }],
-                    title:'Author',         
-                    author:authors[id]
-                });
-    }); 
     signinRouter.get('/',function(req,res)
     {
         
         res.render("signin",{
-            nav: [
-                {
-                    link:'/SignIn',
-                    name:'SignIn'
-                    },
-                    {
-                        link:'/SignUp',
-                        name:'SignUp'
-                        },
-                    
-                    {
-                    link:'/books',
-                    name:'Books'
-                    },
-                    {
-                    link:'/authors',
-                    name:'Authors'
-                    }],
+            nav,
             title:'SignIn',
              
         });
     });
-    signupRouter.get('/',function(req,res)
-    {
-        
-        res.render("signup",{
-            nav: [
-                {
-                    link:'/SignIn',
-                    name:'SignIn'
-                    },
-                    {
-                        link:'/SignUp',
-                        name:'SignUp'
-                        },
-                    
-                    {
-                    link:'/books',
-                    name:'Books'
-                    },
-                    {
-                    link:'/authors',
-                    name:'Authors'
-                    }],
-            title:'SignUp',
-             
-        });
-    });
-    
     
 app.listen(port);
-console.log("server ready at"+port);
+console.log("server ready at "+port);

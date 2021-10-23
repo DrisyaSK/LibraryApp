@@ -12,7 +12,42 @@
 			<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
 		<![endif]-->
 		<link href="/css/styles.css" rel="stylesheet">
+        <style>
+            #formbox
+            {
+                margin:5%;
+                margin-left: 30%;
+                background-color:darkseagreen;
+                width:40%;
+                height:50%;
+            }
+            label{
+                padding:15px;
+                width:30%;
+                height: 20%;
+                color:black;
+                font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+                font-size: large;
+            }
+            input[type='text']
+            {
+                width:50%;
+                border-color: brown;
+                
+            }
+            #btn
+            {
+                margin-left: 35%;
+                width: 30%;
+                background-color: darkgoldenrod;
+                color: black;
+                font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+                font-size: 1.2em;
+                font-weight: bold;
+            }
+        </style>
 	</head>
+    
 	<body>
 <header class="navbar navbar-bright navbar-fixed-top" role="banner">
   <div class="container">
@@ -24,7 +59,7 @@
         <span class="icon-bar"></span>
       </button>
       
-      <a href="/<%=role%>/<%=item1%>" class="navbar-brand">Back</a>
+      <a href="/<%=role%>" class="navbar-brand">Back</a>
       
     </div>
     <nav class="collapse navbar-collapse" role="navigation">
@@ -53,60 +88,34 @@
   <div class="container">
     <div class="row">
       <div class="col-md-7">
-        <h1><%=book.title%>
+        <h1>Add Details
           <p class="lead"></p>
         </h1>
       </div>
     </div> 
-  </div><!-- /cont -->
-  
+  </div><!-- /cont -->  
 </div>
 
-
-<div class="container">
-  <div class="row">
-    
-    <div class="col-md-12"> 
-      
-      <div class="panel">
-        <div class="panel-body">
-          
-          
-          
-          <!--/list of books-->
-            
-          <div class="row">    
-            <br>
-            <div class="col-md-2 col-sm-3 text-center">
-              <a class="story-title" href="#"><img alt="" src="/images/<%=book.image%>" style="width:100px;height:125px"></a>
-            </div>
-            <div class="col-md-10 col-sm-9">
-                  <h3><%=book.title%></h3>
-              <div class="row">
-                <div class="col-xs-9">
-                  <h4><span class="label label-default"><%=book.author%></span></h4><h4>
-                    
-                  <small style="font-family:'Courier New', Courier, monospace; font-weight: bold;" class="text-muted"><%=book.genre%></small>
-                  <br><br>
-                 <!-- <a href="/adminpage/update"> Update Book</a> &nbsp;&nbsp;
-                  <a href="/adminpage/delete"> Delete Book</a>-->
-                  </h4></div>
-              
-                <div class="col-xs-3"></div>
-              </div>
-                          <br><br>
-            </div>
-          </div>
-          <hr>
-          <!--/stories-->      
+<!--adding page-->
+        <div id="formbox">
+            <form action="/adminpage/saveauthor" method="POST">
+                <label>NAME</label>&nbsp;
+                <input type="text" name="names" id="name" required>
+                <br>
+                <label>NOTABLE WORKS</label>&nbsp;
+                <input type="text" name="works" id="works" required>
+                <br>
+                <label>GENRE</label>&nbsp;
+                <input type="text" id="genre" name="genre" required>
+                <br>
+                <label>IMAGE</label>&nbsp;
+                <input type="text" id="image" name="image" required>
+                <br>
+                <input type="submit" name="Save Details" id="btn">
+                
+            </form>
         </div>
-      </div>                                                                                                                   
-                                                      
-   	</div><!--/col-12-->
-  </div>
-</div>
-                                                
-                                                                                
+                                                                      
 <hr>
 
 <div class="container" id="footer">
@@ -149,7 +158,5 @@
 	<!-- script references -->
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
 		<script src="js/bootstrap.min.js"></script>
-    <script src="js/operations.js"></script>
-    
 	</body>
 </html>
